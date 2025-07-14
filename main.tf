@@ -5,8 +5,8 @@
 # }
 
 resource "azurerm_storage_account" "str" {
-  name                     = "iacdevne02" # Backend Storage Account name. Must be globally unique. 
-  resource_group_name      = "RG-GRPDATA-IAC-BACKEND-DEV-NE01" # Existing RG name. Use azurerm_resource_group.rg.name if creating RG first time
+  name                     = "devbackendne02" # Backend Storage Account name. Must be globally unique. 
+  resource_group_name      = "RG-BACKEND-ABZ-NE01" # Existing RG name. Use azurerm_resource_group.rg.name if creating RG first time
   location                 = "northeurope" # Use azurerm_resource_group.rg.location if creating RG
   account_tier             = "Standard" # Upgrade to Premium if app needs it in prod environments
   account_replication_type = "LRS" # Use LRS for non-critical environments in dev/stg for lower cost. Use GRS for prod. 
@@ -48,7 +48,7 @@ resource "azurerm_storage_container" "container" {
 
 # To assign RBAC roles, admin account must be a member of the 'Owner' or 'User Access Administrator' role at the subscription or resource group level.
 resource "azurerm_role_assignment" "tfstate_access" {
-  principal_id   = "" # The object ID of the user, group, or service principal to assign the role to. To retrieve this, use the Azure CLI command: az ad sp show --id <APP_ID> --query objectId if no permission, contact Entra ID/Azure AD admin to provide Object ID.
+  principal_id   = "" # The object ID of the user, group, or service principal to assign the role to. To retrieve this, use the Azure CLI command: az ad sp show --id <APP_ID> --query objectId if no permission, contact Entra ID/Azure AD admin to retrieve Object ID.
   role_definition_name = "Storage Blob Data Contributor" # The name of the role to assign
   scope         = azurerm_storage_container.container.id
 }
